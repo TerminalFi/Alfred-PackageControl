@@ -1,4 +1,5 @@
-#### Alfred-PackageControl
+## Alfred-PackageControl
+--------------------------
 
 Search, and quickly open Packages that are list on [PackageControl.io](https://packagecontrol.io) as well as quickly open Package Homepages (Github, Gitlab, BitBucket, Etc..) from [Alfred](https://www.alfredforum.com)
 
