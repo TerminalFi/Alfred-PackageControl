@@ -6,7 +6,7 @@ Search, and quickly open Packages that are list on [PackageControl.io](https://p
 See [Alfred-Sublime-Text](https://github.com/deanishe/alfred-sublime-text) for a awesome workflow for finding and opening Sublime Text Projects. In which this workflow was inspired.
 
 
-##### Usage
+### Usage
 
 *Search Packages*
 - Trigger Alfred
@@ -23,7 +23,7 @@ See [Alfred-Sublime-Text](https://github.com/deanishe/alfred-sublime-text) for a
 
 
 
-#### Licensing
+### Licensing
 ---------
 
 All the code is released under the [MIT Licence][mit].
