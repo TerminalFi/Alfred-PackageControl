@@ -25,7 +25,7 @@ var getCmd = &cobra.Command{
 func getRun(cobra *cobra.Command, args []string) error {
 	var pkg packagecontrol.PackageDetails
 
-	query = strings.Join(args[1:], " ")
+	query = strings.Join(args, " ")
 
 	log.Printf("query=%s", query)
 
