@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"packagecontrol/packagecontrol"
@@ -9,7 +8,7 @@ import (
 
 	aw "github.com/deanishe/awgo"
 	uuid "github.com/satori/go.uuid"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -53,11 +52,11 @@ func getRun(cobra *cobra.Command, args []string) error {
 	client := packagecontrol.NewClient(nil)
 	req, err := client.NewPackageRequest("GET", query)
 	if err != nil {
-		logrus.Info(err)
+		log.Info(err)
 	}
 
 	if err := client.Do(nil, req, &pkg); err != nil {
-		logrus.Info(err)
+		log.Info(err)
 
 	}
 
@@ -72,6 +71,7 @@ func getRun(cobra *cobra.Command, args []string) error {
 	}
 
 	wf.WarnEmpty("No repos found", "Try a different package?")
+
 	// Send results to Alfred
 	wf.SendFeedback()
 

@@ -23,8 +23,6 @@ var searchCmd = &cobra.Command{
 }
 
 func searchRun(cobra *cobra.Command, args []string) error {
-	var packages packagecontrol.Packages
-
 	query = strings.Join(args, " ")
 
 	log.Printf("query=%s", query)
@@ -50,6 +48,7 @@ func searchRun(cobra *cobra.Command, args []string) error {
 			Icon(iconUpdate)
 	}
 
+	var packages *packagecontrol.Packages
 	client := packagecontrol.NewClient(nil)
 
 	req, err := client.NewSearchRequest("GET", query)
@@ -64,10 +63,16 @@ func searchRun(cobra *cobra.Command, args []string) error {
 
 	for _, pkg := range packages.Packages {
 		uuid4 := uuid.NewV4()
-		wf.NewItem(pkg.Name).
+		item := wf.NewItem(pkg.Name).
 			Subtitle(pkg.HighlightedDescription).
 			Arg(fmt.Sprintf("https://packagecontrol.io/packages/%s", pkg.Name)).
 			UID(uuid4.String()).
+			Valid(true)
+
+		uuid4 = uuid.NewV4()
+		item.NewModifier(aw.ModCmd).
+			Subtitle("Open Packages Homepage (Github, Gitlab, Bitbucket, Etc)").
+			Arg(pkg.Name).
 			Valid(true)
 	}
 	wf.WarnEmpty("No repos found", "Try a different package?")

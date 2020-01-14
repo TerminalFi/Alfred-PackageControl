@@ -18,7 +18,7 @@ var (
 	checkUpdate bool
 	query       string
 
-	repo       = "thesecenv/alfred-packagecontrol" // GitHub repo
+	repo       = "TheSecEng/Alfred-PackageControl" // GitHub repo
 	iconUpdate = &aw.Icon{Value: "update-available.png"}
 )
 
