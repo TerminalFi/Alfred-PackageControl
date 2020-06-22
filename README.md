@@ -8,17 +8,11 @@ See [Alfred-Sublime-Text](https://github.com/deanishe/alfred-sublime-text) for a
 
 *Search Packages*
 - Trigger Alfred
-  - Type `.stp {query}`
-3a. `⌘+↩` will open the PackageControl page
-3b. `⇧+↩` will open the Package Homepage
+  - Type `.sp {query}`
+3a. `↩` will open the PackageControl page
+3b. `⌘+↩` will open the Package Homepage
   
   *Hotkey* : `^+⌘+P`
-
-*Open Package Directory*
-- Trigger Alfred
-  - `.stb`
-  - `↩`
-
 
 
 ### Licensing

@@ -63,16 +63,16 @@ func searchRun(cobra *cobra.Command, args []string) error {
 
 	for _, pkg := range packages.Packages {
 		uuid4 := uuid.NewV4()
-		item := wf.NewItem(pkg.Name).
-			Subtitle(pkg.HighlightedDescription).
-			Arg(fmt.Sprintf("https://packagecontrol.io/packages/%s", pkg.Name)).
+		item := wf.NewItem(pkg.GetName()).
+			Subtitle(fmt.Sprintf("%s installs\t%s", pkg.FormattedInstalls(), pkg.HighlightedDescription)).
+			Arg(fmt.Sprintf("https://packagecontrol.io/packages/%s", pkg.GetName())).
 			UID(uuid4.String()).
 			Valid(true)
 
 		uuid4 = uuid.NewV4()
 		item.NewModifier(aw.ModCmd).
 			Subtitle("Open Packages Homepage (Github, Gitlab, Bitbucket, Etc)").
-			Arg(pkg.Name).
+			Arg(pkg.GetName()).
 			Valid(true)
 	}
 	wf.WarnEmpty("No repos found", "Try a different package?")

@@ -11,6 +11,8 @@ import (
 	"sync"
 
 	"github.com/moul/http2curl"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 const (
@@ -25,6 +27,24 @@ type Packages struct {
 type Package struct {
 	Name                   string `json:"name"`
 	HighlightedDescription string `json:"highlighted_description"`
+	Installs               int    `json:"unique_installs"`
+}
+
+func (p *Package) GetName() string {
+	return StripNewlines(p.Name)
+}
+
+func (p *Package) GetInstalls() int {
+	return p.Installs
+}
+
+func (p *Package) FormattedInstalls() string {
+	pprint := message.NewPrinter(language.English)
+	return pprint.Sprintf("%d", p.GetInstalls())
+}
+
+func (p *Package) GetURL() string {
+	return fmt.Sprintf("https://packagecontrol.io/packages/%s", p.GetName())
 }
 
 type PackageDetails struct {
@@ -32,6 +52,23 @@ type PackageDetails struct {
 	Description string   `json:"description"`
 	Homepage    string   `json:"homepage"`
 	Installs    Installs `json:"installs"`
+}
+
+func (p *PackageDetails) GetName() string {
+	return StripNewlines(p.Name)
+}
+
+func (p *PackageDetails) GetInstalls() int {
+	return p.Installs.Total
+}
+
+func (p *PackageDetails) FormattedInstalls() string {
+	pprint := message.NewPrinter(language.English)
+	return pprint.Sprintf("%d", p.GetInstalls())
+}
+
+func (p *PackageDetails) GetURL() string {
+	return StripNewlines(p.Homepage)
 }
 
 type Installs struct {
@@ -73,9 +110,9 @@ func (c *Client) SetDebug(debug bool) {
 	c.Debugging = debug
 }
 
-// Debug
+// Debug debug logger
 func (c *Client) Debug(message string, req *http.Request, err error) {
-	if c.Debugging == true {
+	if c.Debugging {
 		if req != nil {
 			if command, err := http2curl.GetCurlCommand(req); err == nil {
 				log.Printf("[ DEBUG ] %v\n", message)
