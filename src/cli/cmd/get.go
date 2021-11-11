@@ -28,12 +28,11 @@ func getRun(cobra *cobra.Command, args []string) error {
 	client := packagecontrol.NewClient(nil)
 	req, err := client.NewPackageRequest("GET", query)
 	if err != nil {
-		log.Info(err)
+		return err
 	}
 
 	if err := client.Do(nil, req, &pkg); err != nil {
-		log.Info(err)
-
+		return err
 	}
 
 	if pkg.Name != "" {

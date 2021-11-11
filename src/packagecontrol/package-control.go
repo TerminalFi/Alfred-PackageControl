@@ -28,6 +28,7 @@ type Package struct {
 	Name                   string `json:"name"`
 	HighlightedDescription string `json:"highlighted_description"`
 	Installs               int    `json:"unique_installs"`
+	Trending               int    `json:"trending_rank"`
 }
 
 func (p *Package) GetName() string {
@@ -41,6 +42,10 @@ func (p *Package) GetInstalls() int {
 func (p *Package) FormattedInstalls() string {
 	pprint := message.NewPrinter(language.English)
 	return pprint.Sprintf("%d", p.GetInstalls())
+}
+
+func (p *Package) GetTrending() int {
+	return p.Trending
 }
 
 func (p *Package) GetURL() string {

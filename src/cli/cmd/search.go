@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
@@ -8,7 +9,7 @@ import (
 	"strings"
 
 	aw "github.com/deanishe/awgo"
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/gofrs/uuid"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -56,20 +57,26 @@ func searchRun(cobra *cobra.Command, args []string) error {
 		log.Info(err)
 	}
 
-	if err := client.Do(nil, req, &packages); err != nil {
+	if err := client.Do(context.TODO(), req, &packages); err != nil {
 		log.Info(err)
 
 	}
 
 	for _, pkg := range packages.Packages {
-		uuid4 := uuid.NewV4()
+		desc := fmt.Sprintf("%s installs", pkg.FormattedInstalls())
+		if pkg.GetTrending() != 0 {
+			desc = fmt.Sprintf("%s ⭐️ Trending", desc)
+		}
+		desc = fmt.Sprintf("%s  %s", desc, pkg.HighlightedDescription)
+
+		uuid4 := uuid.Must(uuid.NewV4())
 		item := wf.NewItem(pkg.GetName()).
-			Subtitle(fmt.Sprintf("%s installs\t%s", pkg.FormattedInstalls(), pkg.HighlightedDescription)).
+			Subtitle(desc).
 			Arg(fmt.Sprintf("https://packagecontrol.io/packages/%s", pkg.GetName())).
 			UID(uuid4.String()).
 			Valid(true)
 
-		uuid4 = uuid.NewV4()
+		uuid4 = uuid.Must(uuid.NewV4())
 		item.NewModifier(aw.ModCmd).
 			Subtitle("Open Packages Homepage (Github, Gitlab, Bitbucket, Etc)").
 			Arg(pkg.GetName()).
